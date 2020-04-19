@@ -1,15 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBTestTask
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Usage: <pattern> <path>");
+                return;
+            }
+
+            try
+            {
+                var grep = new Grep(args[0]);
+                grep.Execute(args[1]);
+                Console.WriteLine();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }
