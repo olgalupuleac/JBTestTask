@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBTestTask", "JBTestTask.csproj", "{6456BB56-B69D-461B-A7C9-D3B51761B641}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grep", "Grep.csproj", "{6456BB56-B69D-461B-A7C9-D3B51761B641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrep", "..\TestGrep\TestGrep.csproj", "{1AA449D6-87F4-473F-9D7A-6F84212EAFBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6456BB56-B69D-461B-A7C9-D3B51761B641}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6456BB56-B69D-461B-A7C9-D3B51761B641}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6456BB56-B69D-461B-A7C9-D3B51761B641}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA449D6-87F4-473F-9D7A-6F84212EAFBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA449D6-87F4-473F-9D7A-6F84212EAFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA449D6-87F4-473F-9D7A-6F84212EAFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA449D6-87F4-473F-9D7A-6F84212EAFBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
