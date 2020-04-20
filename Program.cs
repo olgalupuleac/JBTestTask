@@ -1,5 +1,4 @@
 ﻿using System;
-using NLog.Targets;
 
 namespace JBTestTask
 {
@@ -14,6 +13,10 @@ namespace JBTestTask
             Console.ForegroundColor = DefaultColor;
         }
 
+        /// <summary>
+        /// Prints an error message
+        /// </summary>
+        /// <param name="message">Message to be printed</param>
         public static void ReportError(string message)
         {
             var normalColor = Console.ForegroundColor;
@@ -22,11 +25,21 @@ namespace JBTestTask
             Console.ForegroundColor = normalColor;
         }
 
+        /// <summary>
+        /// Prints a matching line
+        /// </summary>
+        /// <param name="line">A line to be printed</param>
         public static void Print(string line)
         {
             Console.WriteLine(line);
         }
 
+        /// <summary>
+        /// Prints a line and highlights the first match.
+        /// </summary>
+        /// <param name="start">A part of the line before the match (default color)</param>
+        /// <param name="match">The match (highlighted)</param>
+        /// <param name="end">A part of the line after the match (default color)</param>
         public static void PrintHighlighted(string start, string match, string end)
         {
             Console.Write(start);
@@ -39,10 +52,8 @@ namespace JBTestTask
 
     public class Program
     {
-        
         public static void Main(string[] args)
         {
-            
             if (args.Length != 2)
             {
                 ColoredConsole.ReportError("Usage: <pattern> <path>");
@@ -55,27 +66,13 @@ namespace JBTestTask
 
             try
             {
-                var grep = new Grep(pattern)
-                {
-                    /*Printer = (filename, index, line) =>
-                    {
-                        Console.Write($"{filename}:{index}: ");
-                        var match = line.IndexOf(pattern, StringComparison.Ordinal);
-                        Console.Write(line.Substring(0, match + 1));
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        Console.Write(pattern);
-                        Console.ForegroundColor = DefaultTextColor;
-                        Console.WriteLine(line.Substring(match + pattern.Length + 1));
-                    }*/
-                };
-                grep.Execute(args[1]);
+                var grep = new Grep(pattern);
+                grep.Execute(path);
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                ColoredConsole.ReportError(exception.Message);
             }
-
-            Console.WriteLine();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace JBTestTask
         /// </summary>
         static Grep()
         {
-            var consoleTarget = new ColoredConsoleTarget();
+            var consoleTarget = new ColoredConsoleTarget {ErrorStream = true};
             var config = new LoggingConfiguration();
             config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);
             LogManager.Configuration = config;
@@ -61,10 +61,9 @@ namespace JBTestTask
             {
                 Printer = (filename, index, line) =>
                 {
-                    int indexPattern = line.IndexOf(pattern, StringComparison.Ordinal);
+                    var indexPattern = line.IndexOf(pattern, StringComparison.Ordinal);
                     Debug.Assert(indexPattern != -1);
                     var start = line.Substring(0, indexPattern);
-                    Logger.Debug($"{indexPattern + pattern.Length}, {line.Length}, {line}, {indexPattern}");
                     var end = indexPattern + pattern.Length == line.Length
                         ? ""
                         : line.Substring(indexPattern + pattern.Length);
@@ -79,7 +78,7 @@ namespace JBTestTask
 
         /// <summary>
         /// Executes the command on a given file. If a given path is a directory,
-        /// search for matching lines in files recursively.
+        /// search for matching lines for all files in the directory recursively.
         /// </summary>
         /// <param name="path">Is a path to a file or directory</param>
         public void Execute(string path)

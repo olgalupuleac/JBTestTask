@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using JBTestTask;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.String;
 
 namespace GrepTest
 {
@@ -11,11 +13,11 @@ namespace GrepTest
         [AssemblyInitialize]
         public static void CreateTestFileSystem(TestContext context)
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             Directory.SetCurrentDirectory(tempDirectory);
             const string a = "a.txt";
-            var b = "b.txt";
+            const string b = "b.txt";
             Directory.CreateDirectory("test_dir");
             var c = Path.Combine("test_dir", "c.txt");
             Directory.CreateDirectory(Path.Combine("test_dir", "subdir"));
@@ -114,6 +116,22 @@ namespace GrepTest
             };
             grep.Execute("empty");
             Assert.AreEqual(0, results.Count);
+        }
+        
+        [TestMethod]
+        public void TestColoredOutputIsCorrect()
+        {
+            var grep = new Grep("ab");
+            var output = Console.Out;
+            var sw = new StringWriter();
+            Console.SetOut(sw);
+            const string path = "a.txt";
+            grep.Execute(path);
+            Console.SetOut(output);
+            var expected = Join(Environment.NewLine,
+                $"{path}:1: abaab", $"{path}:2: aba",
+                $"{path}:3: ab", $"{path}:8: bab") + Environment.NewLine;
+            Assert.AreEqual(expected, sw.ToString());
         }
     }
 }
