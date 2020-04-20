@@ -7,7 +7,7 @@ namespace JBTestTask
     {
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
         private const ConsoleColor DefaultColor = ConsoleColor.Green;
-        private const ConsoleColor HighlightColor = ConsoleColor.Cyan;
+        private const ConsoleColor HighlightColor = ConsoleColor.Magenta;
 
         static ColoredConsole()
         {
