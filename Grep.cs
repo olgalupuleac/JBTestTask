@@ -10,7 +10,8 @@ using NLog.Config;
 namespace JBTestTask
 {
     /// <summary>
-    /// 
+    /// Represents a class for `grep` command.
+    /// Searches for a pattern in files and prints matching lines.
     /// </summary> 
     public class Grep
     {
@@ -41,20 +42,18 @@ namespace JBTestTask
         /// Prints the resulting strings. 
         /// </summary>
         /// <param name="filename">Is a name of the file where the matching line was found</param>
-        /// <param name="index">Is a line number.</param>
-        /// <param name="line">Is the </param>
+        /// <param name="index">Is a line number</param>
+        /// <param name="line">Is the line to be printed</param>
         public delegate void PrinterDelegate(string filename, int index, string line);
 
-        /// <summary>
-        /// 
-        /// </summary>
         public MatcherDelegate Matcher { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
         public PrinterDelegate Printer { get; set; }
 
+        /// <summary>
+        /// Creates an instance of the Grep.
+        /// </summary>
+        /// <param name="pattern">Is a pattern to be searched for</param>
+        /// <param name="coloredOutput">If true, the first match in each string will be highlighted</param>
         public Grep(string pattern, bool coloredOutput = true)
         {
             Matcher = line => line.Contains(pattern);
@@ -79,9 +78,10 @@ namespace JBTestTask
         }
 
         /// <summary>
-        /// 
+        /// Executes the command on a given file. If a given path is a directory,
+        /// search for matching lines in files recursively.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Is a path to a file or directory</param>
         public void Execute(string path)
         {
             Logger.Debug($"Current directory is {Directory.GetCurrentDirectory()}");
@@ -100,17 +100,13 @@ namespace JBTestTask
             ProcessDirectory(path);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
         private void ProcessDirectory(string path)
         {
             Logger.Debug($"Processing directory {path}");
             try
             {
-                Directory.GetDirectories(path).ToList().ForEach(ProcessDirectory);
                 Directory.GetFiles(path).ToList().ForEach(ProcessFile);
+                Directory.GetDirectories(path).ToList().ForEach(ProcessDirectory);
             }
             catch (Exception exception)
             {
@@ -127,10 +123,6 @@ namespace JBTestTask
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filename"></param>
         private void ProcessFile(string filename)
         {
             Logger.Debug($"Processing file {filename}");
