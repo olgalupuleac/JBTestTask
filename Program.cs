@@ -1,4 +1,5 @@
 ﻿using System;
+using clipr;
 
 namespace JBTestTask
 {
@@ -50,28 +51,41 @@ namespace JBTestTask
         }
     }
 
+
+    [ApplicationInfo(Description = "This is a set of options.")]
+    public class Options
+    {
+        [NamedArgument('c', "color", Action = ParseAction.StoreTrue,
+            Description = "Highlight the first match in each output line")]
+        public bool Colored { get; set; }
+
+        [PositionalArgument(0,
+            Description = "Pattern to be searched for")]
+        public string Pattern { get; set; }
+
+        [PositionalArgument(1, Description = "Path to file or directory")]
+        public string Path { get; set; }
+    }
+
+
     public class Program
     {
         public static void Main(string[] args)
         {
-            if (args.Length != 2)
-            {
-                ColoredConsole.ReportError("Usage: <pattern> <path>");
-                return;
-            }
-
-            var pattern = args[0];
-            var path = args[1];
-
-
             try
             {
-                var grep = new Grep(pattern);
-                grep.Execute(path);
+                var opt = CliParser.Parse<Options>(args);
+                var grep = new Grep(opt.Pattern, opt.Colored);
+                grep.Execute(opt.Path);
             }
-            catch (Exception exception)
+            catch (ParseException e)
             {
-                ColoredConsole.ReportError(exception.Message);
+                ColoredConsole.ReportError(e.Message);
+                ColoredConsole.ReportError("Usage: [-c|--color] <pattern> <path>");
+            }
+            catch (Exception e)
+            {
+                ColoredConsole.ReportError(e.Message);
             }
         }
     }
